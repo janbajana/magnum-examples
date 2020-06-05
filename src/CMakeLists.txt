@@ -150,3 +150,7 @@ endif()
 if(WITH_WEBXR_EXAMPLE)
     add_subdirectory(webxr)
 endif()
+
+if(WITH_VIDEO_EXAMPLE)
+    add_subdirectory(video)
+endif()

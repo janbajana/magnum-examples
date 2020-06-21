@@ -37,7 +37,7 @@ if(PROJECT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
 endif()
 
 find_package(Corrade REQUIRED Main)
-find_package(Magnum REQUIRED GL Trade Sdl2Application)
+find_package(Magnum REQUIRED GL Video Trade Sdl2Application)
 
 set_directory_properties(PROPERTIES CORRADE_USE_PEDANTIC_FLAGS ON)
 
@@ -54,6 +54,7 @@ target_link_libraries(magnum-video PRIVATE
     Magnum::Application
     Magnum::GL
     Magnum::Magnum
+    Magnum::Video
     Magnum::Trade)
 
 install(TARGETS magnum-video DESTINATION ${MAGNUM_BINARY_INSTALL_DIR})

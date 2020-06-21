@@ -45,6 +45,8 @@
 #include <Magnum/Trade/AbstractImporter.h>
 #include <Magnum/Trade/ImageData.h>
 
+#include <Magnum/Video/AbstractImporter.h>
+
 #include "TexturedTriangleShader.h"
 
 namespace Magnum { namespace Examples {
@@ -55,6 +57,10 @@ class VideoExample: public Platform::Application {
 
     private:
         void drawEvent() override;
+
+        /* Video Importer */
+        PluginManager::Manager<Video::AbstractImporter> _videoManager;
+        Containers::Pointer<Video::AbstractImporter> _videoImporter;
 
         GL::Mesh _mesh;
         TexturedTriangleShader _shader;
@@ -90,15 +96,18 @@ VideoExample::VideoExample(const Arguments& arguments):
             TexturedTriangleShader::TextureCoordinates{});
 
     /* Load Video Importer Plugin */
-    PluginManager::Manager<Trade::AbstractImporter> videoManager;
-    Containers::Pointer<Trade::AbstractImporter> videoImporter =
-        videoManager.loadAndInstantiate("GstVideoImporter");
-    if(!videoImporter) std::exit(1);
+    // PluginManager::Manager<Trade::AbstractImporter> videoManager;
+    // Containers::Pointer<Trade::AbstractImporter> videoImporter =
+    //     videoManager.loadAndInstantiate("GStVideoImporter");
 
-    Debug{} << "Opening file" << args.value("file");
+    /* Load Video Importer Plugin */
+    _videoImporter = _videoManager.loadAndInstantiate("GStVideoImporter");
+    if(!_videoImporter) std::exit(1);
+
+    Debug{} << "Opening file: " << args.value("file");
 
     /* Load file */
-    if(!videoImporter->openFile(args.value("file")))
+    if(!_videoImporter->openFile(args.value("file")))
         std::exit(4);
 
     /* Load TGA importer plugin */

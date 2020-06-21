@@ -110,6 +110,9 @@ VideoExample::VideoExample(const Arguments& arguments):
     if(!_videoImporter->openFile(args.value("file")))
         std::exit(4);
 
+    if(_videoImporter->isOpened())
+        _videoImporter->play();
+
     /* Load TGA importer plugin */
     PluginManager::Manager<Trade::AbstractImporter> manager;
     Containers::Pointer<Trade::AbstractImporter> importer =
@@ -135,6 +138,11 @@ void VideoExample::drawEvent() {
     GL::defaultFramebuffer.clear(GL::FramebufferClear::Color);
 
     using namespace Math::Literals;
+
+    if(_videoImporter)
+    {
+            Debug{} << "playing ...";
+    }
 
     _shader
         .setColor(0xffb2b2_rgbf)

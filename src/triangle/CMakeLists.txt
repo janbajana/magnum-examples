@@ -37,11 +37,12 @@ if(PROJECT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
 endif()
 
 find_package(Corrade REQUIRED Main)
+find_package(Magnum REQUIRED GL Shaders)
 
 if(CORRADE_TARGET_ANDROID)
-    find_package(Magnum REQUIRED GL Shaders AndroidApplication)
+    find_package(Magnum REQUIRED AndroidApplication)
 else()
-    find_package(Magnum REQUIRED GL Shaders Sdl2Application)
+    find_package(Magnum REQUIRED Sdl2Application)
 endif()
 
 set_directory_properties(PROPERTIES CORRADE_USE_PEDANTIC_FLAGS ON)
@@ -58,6 +59,12 @@ target_link_libraries(magnum-triangle PRIVATE
     Magnum::GL
     Magnum::Magnum
     Magnum::Shaders)
+
+# Gradle-free Android build
+if(CORRADE_TARGET_ANDROID AND CMAKE_ANDROID_NDK)
+    include(${CMAKE_CURRENT_LIST_DIR}/../../toolchains/modules/UseAndroid.cmake)
+    android_create_apk(magnum-triangle ${CMAKE_CURRENT_LIST_DIR}/android/AndroidManifest.xml)
+endif()
 
 install(TARGETS magnum-triangle DESTINATION ${MAGNUM_BINARY_INSTALL_DIR})
 

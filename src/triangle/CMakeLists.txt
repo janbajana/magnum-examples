@@ -37,11 +37,21 @@ if(PROJECT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
 endif()
 
 find_package(Corrade REQUIRED Main)
-find_package(Magnum REQUIRED GL Shaders Sdl2Application)
+
+if(CORRADE_TARGET_ANDROID)
+    find_package(Magnum REQUIRED GL Shaders AndroidApplication)
+else()
+    find_package(Magnum REQUIRED GL Shaders Sdl2Application)
+endif()
 
 set_directory_properties(PROPERTIES CORRADE_USE_PEDANTIC_FLAGS ON)
 
-add_executable(magnum-triangle WIN32 TriangleExample.cpp)
+if(CORRADE_TARGET_ANDROID)
+    add_library(magnum-triangle SHARED TriangleExample.cpp)
+else()
+    add_executable(magnum-triangle WIN32 TriangleExample.cpp)
+endif()
+
 target_link_libraries(magnum-triangle PRIVATE
     Corrade::Main
     Magnum::Application

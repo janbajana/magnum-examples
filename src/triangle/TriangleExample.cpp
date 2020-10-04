@@ -31,7 +31,13 @@
 #include <Magnum/GL/DefaultFramebuffer.h>
 #include <Magnum/GL/Mesh.h>
 #include <Magnum/Math/Color.h>
+
+#ifdef CORRADE_TARGET_ANDROID
+#include <Magnum/Platform/AndroidApplication.h>
+#else
 #include <Magnum/Platform/Sdl2Application.h>
+#endif
+
 #include <Magnum/Shaders/VertexColor.h>
 
 namespace Magnum { namespace Examples {

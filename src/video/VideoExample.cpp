@@ -49,51 +49,53 @@
 
 #include "TexturedTriangleShader.h"
 
-namespace Magnum { namespace Examples {
+namespace Magnum {
+namespace Examples {
 
-class VideoExample: public Platform::Application {
-    public:
-        explicit VideoExample(const Arguments& arguments);
+class VideoExample : public Platform::Application
+{
+public:
+    explicit VideoExample(const Arguments& arguments);
 
-    private:
-        void drawEvent() override;
+private:
+    void drawEvent() override;
 
-        /* Video Importer */
-        PluginManager::Manager<Video::AbstractImporter> _videoManager;
-        Containers::Pointer<Video::AbstractImporter> _videoImporter;
+    /* Video Importer */
+    PluginManager::Manager<Video::AbstractImporter> _videoManager;
+    Containers::Pointer<Video::AbstractImporter> _videoImporter;
 
-        GL::Mesh _mesh;
-        TexturedTriangleShader _shader;
-        GL::Texture2D _texture;
+    GL::Mesh _mesh;
+    TexturedTriangleShader _shader;
+    GL::Texture2D _texture;
 };
 
-VideoExample::VideoExample(const Arguments& arguments):
-    Platform::Application{arguments, Configuration{}
-        .setTitle("Magnum Textured Triangle Example")}
+VideoExample::VideoExample(const Arguments& arguments) : Platform::Application{ arguments, Configuration{}.setTitle("Magnum Textured Triangle Example") }
 {
     Debug{} << "Starting video example.";
-    Utility::Arguments args;
-    args.addArgument("file").setHelp("file", "file to load")
-        .addSkippedPrefix("magnum", "engine-specific options")
-        .setGlobalHelp("Displays a 3D scene file provided on command line.")
-        .parse(arguments.argc, arguments.argv);
+    //TODO currently is crashing.
+    // Utility::Arguments args;
+    // args.addArgument("file").setHelp("file", "file to load")
+    //     .addSkippedPrefix("magnum", "engine-specific options")
+    //     .setGlobalHelp("Displays a 3D scene file provided on command line.")
+    //     .parse(arguments.argc, arguments.argv);
 
-    struct TriangleVertex {
+    struct TriangleVertex
+    {
         Vector2 position;
         Vector2 textureCoordinates;
     };
     const TriangleVertex data[]{
-        {{-0.5f, -0.5f}, {0.0f, 0.0f}}, /* Left position and texture coordinate */
-        {{ 0.5f, -0.5f}, {1.0f, 0.0f}}, /* Right position and texture coordinate */
-        {{ 0.0f,  0.5f}, {0.5f, 1.0f}}  /* Top position and texture coordinate */
+        { { -0.5f, -0.5f }, { 0.0f, 0.0f } }, /* Left position and texture coordinate */
+        { { 0.5f, -0.5f }, { 1.0f, 0.0f } },  /* Right position and texture coordinate */
+        { { 0.0f, 0.5f }, { 0.5f, 1.0f } }    /* Top position and texture coordinate */
     };
 
     GL::Buffer buffer;
     buffer.setData(data);
     _mesh.setCount(3)
         .addVertexBuffer(std::move(buffer), 0,
-            TexturedTriangleShader::Position{},
-            TexturedTriangleShader::TextureCoordinates{});
+                         TexturedTriangleShader::Position{},
+                         TexturedTriangleShader::TextureCoordinates{});
 
     /* Load Video Importer Plugin */
     // PluginManager::Manager<Trade::AbstractImporter> videoManager;
@@ -102,26 +104,30 @@ VideoExample::VideoExample(const Arguments& arguments):
 
     /* Load Video Importer Plugin */
     _videoImporter = _videoManager.loadAndInstantiate("GStVideoImporter");
-    if(!_videoImporter) std::exit(1);
+    if (!_videoImporter)
+        std::exit(1);
 
-    Debug{} << "Opening file: " << args.value("file");
+    Debug{} << "Opening file: "
+            << "/home/jbajana/Videos/2020-02-27-123059.webm";
+    // Debug{} << "Opening file: " << args.value("file");
 
     /* Load file */
-    if(!_videoImporter->openFile(args.value("file")))
-        std::exit(4);
+    // if(!_videoImporter->openFile(args.value("file")))
+    //     std::exit(4);
 
-    if(_videoImporter->isOpened())
-        _videoImporter->play();
+    // if(_videoImporter->isOpened())
+    //     _videoImporter->play();
 
     /* Load TGA importer plugin */
     PluginManager::Manager<Trade::AbstractImporter> manager;
     Containers::Pointer<Trade::AbstractImporter> importer =
         manager.loadAndInstantiate("TgaImporter");
-    if(!importer) std::exit(1);
+    if (!importer)
+        std::exit(1);
 
     /* Load the texture */
-    const Utility::Resource rs{"video-data"};
-    if(!importer->openData(rs.getRaw("stone.tga")))
+    const Utility::Resource rs{ "video-data" };
+    if (!importer->openData(rs.getRaw("stone.tga")))
         std::exit(2);
 
     /* Set texture data and parameters */
@@ -134,14 +140,16 @@ VideoExample::VideoExample(const Arguments& arguments):
         .setSubImage(0, {}, *image);
 }
 
-void VideoExample::drawEvent() {
+void
+VideoExample::drawEvent()
+{
     GL::defaultFramebuffer.clear(GL::FramebufferClear::Color);
 
     using namespace Math::Literals;
 
-    if(_videoImporter)
+    if (_videoImporter)
     {
-            Debug{} << "playing ...";
+        Debug{} << "playing ...";
     }
 
     _shader
@@ -152,6 +160,7 @@ void VideoExample::drawEvent() {
     swapBuffers();
 }
 
-}}
+} // namespace Examples
+} // namespace Magnum
 
 MAGNUM_APPLICATION_MAIN(Magnum::Examples::VideoExample)

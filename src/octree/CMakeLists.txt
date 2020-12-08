@@ -5,7 +5,7 @@
 #
 #       2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020 —
 #           Vladimír Vondruš <mosra@centrum.cz>
-#       2017, 2018 — Jonathan Hale <squareys@googlemail.com>
+#       2020 — Nghia Truong <nghiatruong.vn@gmail.com>
 #
 #   This is free and unencumbered software released into the public domain.
 #
@@ -30,60 +30,40 @@
 
 cmake_minimum_required(VERSION 3.4)
 
-project(MagnumWebVrExample CXX)
+project(OctreeExample CXX)
 
 # Add module path in case this is project root
 if(PROJECT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
     set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/../../modules/" ${CMAKE_MODULE_PATH})
 endif()
 
-include(CheckSymbolExists)
-check_symbol_exists(EMSCRIPTEN_VR_API_VERSION "emscripten/vr.h" HAS_WEBVR_1_1)
-if(NOT HAS_WEBVR_1_1)
-    message(ERROR "webvr-example requires WebVR 1.1 API in emscripten.")
-endif()
-
-# Closure compiler is not happy about WebVR, complaining about sourceStr and
-# sourceStrPtr that probably got mangled by accident. Let's disable it for now.
-string(REPLACE "--closure 1" "" CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS_RELEASE}")
-
+find_package(Corrade REQUIRED Main)
 find_package(Magnum REQUIRED
+    DebugTools
     GL
     MeshTools
     Primitives
     Shaders
-    EmscriptenApplication)
+    Sdl2Application)
 
 set_directory_properties(PROPERTIES CORRADE_USE_PEDANTIC_FLAGS ON)
 
-add_executable(magnum-webvr
-    WebVrExample.cpp)
-target_link_libraries(magnum-webvr PRIVATE
+add_executable(magnum-octree WIN32
+    LooseOctree.h
+    LooseOctree.cpp
+    OctreeExample.cpp
+    ../arcball/ArcBall.cpp)
+target_link_libraries(magnum-octree PRIVATE
+    Corrade::Main
     Magnum::Application
+    Magnum::DebugTools
     Magnum::GL
     Magnum::Magnum
     Magnum::MeshTools
     Magnum::Primitives
     Magnum::Shaders)
 
-# Copy the boilerplate next to the executable so it can be run directly from
-# the build dir; provide an install target as well
-add_custom_command(TARGET magnum-webvr POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        ${MAGNUM_EMSCRIPTENAPPLICATION_JS}
-        ${MAGNUM_WEBAPPLICATION_CSS}
-        $<TARGET_FILE_DIR:magnum-webvr>
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        ${CMAKE_CURRENT_SOURCE_DIR}/webvr.html
-        $<TARGET_FILE_DIR:magnum-webvr>/magnum-webvr.html)
+install(TARGETS magnum-octree DESTINATION ${MAGNUM_BINARY_INSTALL_DIR})
 
-install(FILES webvr.html DESTINATION ${MAGNUM_DEPLOY_PREFIX}/webvr RENAME index.html)
-install(TARGETS magnum-webvr DESTINATION ${MAGNUM_DEPLOY_PREFIX}/webvr)
-install(FILES
-    ${MAGNUM_EMSCRIPTENAPPLICATION_JS}
-    ${MAGNUM_WEBAPPLICATION_CSS}
-    DESTINATION ${MAGNUM_DEPLOY_PREFIX}/webvr)
-install(FILES
-    $<TARGET_FILE_DIR:magnum-webvr>/magnum-webvr.js.mem
-    $<TARGET_FILE_DIR:magnum-webvr>/magnum-webvr.wasm
-    DESTINATION ${MAGNUM_DEPLOY_PREFIX}/webvr OPTIONAL)
+# Make the executable a default target to build & run in Visual Studio
+set_property(DIRECTORY ${PROJECT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT magnum-octree)

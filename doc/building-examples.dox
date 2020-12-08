@@ -27,6 +27,8 @@ namespace Magnum {
 /** @page building-examples Downloading and building examples
 @brief Guide how to download and build examples for the Magnum engine.
 
+@m_keyword{Building examples,,}
+
 @tableofcontents
 @m_footernavigation
 
@@ -88,7 +90,7 @@ makepkg -fp PKGBUILD # or any other PKGBUILD file
 Once built, install the package using `pacman`:
 
 @code{.sh}
-sudo pacman -U magnum-examples-*.pkg.tar.xz
+sudo pacman -U magnum-examples-*.pkg.tar.zst
 @endcode
 
 Edit the PKGBUILDs if you want to pass additional flags to CMake or
@@ -219,6 +221,7 @@ integration libraries, see @ref building-plugins, @ref building-integration and
     Not available on OpenGL ES.
 -   `WITH_MOUSEINTERACTION_EXAMPLE` --- Build the @ref examples-mouseinteraction
     example.
+-   `WITH_OCTREE_EXAMPLE` --- Build the @ref examples-octree example.
 -   `WITH_OVR_EXAMPLE` --- Build the @ref examples-ovr example. Requires
     the @ref OvrIntegration library.
 -   `WITH_PICKING_EXAMPLE` --- Build the @ref examples-picking example.
@@ -243,7 +246,7 @@ integration libraries, see @ref building-plugins, @ref building-integration and
     [GLEW](http://glew.sourceforge.net/).
 -   `WITH_VIEWER_EXAMPLE` --- Build the @ref examples-viewer "Viewer" example.
     Requires the @ref Trade::AnySceneImporter "AnySceneImporter" plugin.
--   `WITH_WEBVR_EXAMPLE` --- Build the @ref examples-webvr "WebVR" example.
+-   `WITH_WEBXR_EXAMPLE` --- Build the @ref examples-webxr "WebXR" example.
     Available only on @ref CORRADE_TARGET_EMSCRIPTEN "Emscripten".
 
 Some examples accept additional options:
@@ -278,7 +281,7 @@ in @ref building-doc.
 
 In `package/ci/` there is a `travis.yml` file with Linux GCC 4.8, macOS,
 Linux desktop GLES2/GLES3, iOS GLES2/GLES3, Emscripten WebGL1/WebGL2 and
-Android GLES2/GLES3 configuration. Online at https://travis-ci.org/mosra/magnum-examples.
+Android GLES2/GLES3 configuration. Online at https://travis-ci.com/mosra/magnum-examples.
 
 @subsection building-examples-ci-appveyor AppVeyor
 

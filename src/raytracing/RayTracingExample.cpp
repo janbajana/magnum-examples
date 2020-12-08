@@ -83,6 +83,7 @@ RayTracingExample::RayTracingExample(const Arguments& arguments):
             .setHelp("max-samples", "max samples per pixel", "COUNT")
         .addOption("max-ray-depth", "16")
             .setHelp("max-ray-depth", "max ray depth", "DEPTH")
+        .addSkippedPrefix("magnum")
         .parse(arguments.argc, arguments.argv);
 
     /* Delayed context creation so the command-line help is displayed w/o
@@ -106,9 +107,8 @@ RayTracingExample::RayTracingExample(const Arguments& arguments):
         resizeBuffers(framebufferSize());
     }
 
-    /* Start the timer, loop frame as fast as possible */
+    /* Loop frame as fast as possible */
     setSwapInterval(0);
-    setMinimalLoopPeriod(0);
 }
 
 void RayTracingExample::drawEvent() {
@@ -144,7 +144,7 @@ void RayTracingExample::renderAndUpdateBlockPixels() {
 
 void RayTracingExample::viewportEvent(ViewportEvent& event) {
     const auto newBufferSize = event.framebufferSize();
-    GL::defaultFramebuffer.setViewport({ {}, newBufferSize });
+    GL::defaultFramebuffer.setViewport({{}, newBufferSize});
     _arcballCamera->reshape(windowSize());
     _rayTracer->resizeBuffers(newBufferSize);
     resizeBuffers(newBufferSize);

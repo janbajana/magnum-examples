@@ -54,6 +54,7 @@
 #include <Magnum/GL/Mesh.h>
 #include <Magnum/GL/Renderer.h>
 #include <Magnum/GL/Texture.h>
+#include <Magnum/Math/Color.h>
 #include <Magnum/Platform/Sdl2Application.h>
 #include <Magnum/SceneGraph/Camera.h>
 #include <Magnum/SceneGraph/Drawable.h>
@@ -422,7 +423,7 @@ void DartExample::drawEvent() {
         for(std::size_t i = 0; i < object.drawData().meshes.size(); ++i) {
             bool isColor = true;
             GL::Texture2D* texture = nullptr;
-            if(object.drawData().materials[i].flags() & Trade::PhongMaterialData::Flag::DiffuseTexture) {
+            if(object.drawData().materials[i].hasAttribute(Trade::MaterialAttribute::DiffuseTexture)) {
                 Containers::Optional<GL::Texture2D>& entry = object.drawData().textures[object.drawData().materials[i].diffuseTexture()];
                 if(entry) {
                     texture = &*entry;
@@ -610,8 +611,10 @@ void DrawableObject::draw(const Matrix4& transformationMatrix, SceneGraph::Camer
                 .setDiffuseColor(_materials[i].diffuseColor)
                 .setSpecularColor(_materials[i].specularColor)
                 .setShininess(_materials[i].shininess)
-                .setLightPosition(0, camera.cameraMatrix().transformPoint({0.0f, 2.0f, 3.0f}))
-                .setLightPosition(1, camera.cameraMatrix().transformPoint({0.0f, -2.0f, 3.0f}))
+                .setLightPositions({
+                    {camera.cameraMatrix().transformPoint({0.0f, 2.0f, 3.0f}), 0.0f},
+                    {camera.cameraMatrix().transformPoint({0.0f, -2.0f, 3.0f}), 0.0f}
+                })
                 .setTransformationMatrix(transformationMatrix*scalingMatrix)
                 .setNormalMatrix((transformationMatrix*scalingMatrix).normalMatrix())
                 .setProjectionMatrix(camera.projectionMatrix())
@@ -622,8 +625,10 @@ void DrawableObject::draw(const Matrix4& transformationMatrix, SceneGraph::Camer
                 .bindDiffuseTexture(*_textures[i])
                 .setSpecularColor(_materials[i].specularColor)
                 .setShininess(_materials[i].shininess)
-                .setLightPosition(0, camera.cameraMatrix().transformPoint({0.0f, 2.0f, 3.0f}))
-                .setLightPosition(1, camera.cameraMatrix().transformPoint({0.0f, -2.0f, 3.0f}))
+                .setLightPositions({
+                    {camera.cameraMatrix().transformPoint({0.0f, 2.0f, 3.0f}), 0.0f},
+                    {camera.cameraMatrix().transformPoint({0.0f, -2.0f, 3.0f}), 0.0f}
+                })
                 .setTransformationMatrix(transformationMatrix*scalingMatrix)
                 .setNormalMatrix((transformationMatrix*scalingMatrix).normalMatrix())
                 .setProjectionMatrix(camera.projectionMatrix())

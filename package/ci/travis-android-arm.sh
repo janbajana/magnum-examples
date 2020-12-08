@@ -57,6 +57,7 @@ cmake .. \
     -DWITH_PRIMITIVES=ON \
     -DWITH_SCENEGRAPH=ON \
     -DWITH_SHADERS=ON \
+    -DWITH_SHADERTOOLS=OFF \
     -DWITH_TEXT=ON \
     -DWITH_TEXTURETOOLS=ON \
     -DWITH_TRADE=ON \
@@ -85,7 +86,7 @@ cmake .. \
     -DIMGUI_DIR=$HOME/imgui \
     -DWITH_BULLET=OFF \
     -DWITH_DART=OFF \
-    -DWITH_IMGUI=$TARGET_GLES3 \
+    -DWITH_IMGUI=ON \
     -DWITH_OVR=OFF \
     -G Ninja
 ninja install

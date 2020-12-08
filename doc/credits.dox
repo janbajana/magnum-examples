@@ -29,6 +29,8 @@ namespace Magnum {
 
 @section credits-contributors-examples Magnum Examples
 
+-   **Alan Jefferson** ([\@alanjfs](https://github.com/alanjfs)) --- updates to
+    @ref examples-box2d to work with latest Box2D 2.4
 -   **Alex Forrence** ([\@aforren1](https://github.com/aforren1)) --- fixes to
     Python examples
 -   **Bill Robinson** ([\@wivlaro](https://github.com/wivlaro)) --- the
@@ -51,8 +53,7 @@ namespace Magnum {
     fixes
 -   **Jonathan Hale** ([\@Squareys](https://github.com/Squareys)) --- the
     @ref examples-ovr, @ref examples-audio, @ref examples-arealights,
-    @ref examples-webvr, @ref examples-leapmotion, @ref examples-imgui and
-    @ref examples-webxr
+    @ref examples-leapmotion, @ref examples-imgui, WebVR and @ref examples-webxr
     examples, porting to @ref Platform::EmscriptenApplication
 -   **Konstantinos Chatzilygeroudis** ([\@costashatz](https://github.com/costashatz))
     --- the @ref examples-dart example
@@ -72,7 +73,8 @@ namespace Magnum {
     @ref examples-cubemap improvements
 -   **Nghia Truong** ([\@ttnghia](https://github.com/ttnghia) --- the
     @ref examples-fluidsimulation2d, @ref examples-fluidsimulation3d,
-    @ref examples-arcball and @ref examples-raytracing examples
+    @ref examples-arcball, @ref examples-raytracing and @ref examples-octree
+    examples
 -   **Nicholas "LB" Branden** ([\@LB--](https://github.com/LB--)) --- bugfixes
 -   **Patrick Werner** ([\@boonto](https://github.com/boonto)) --- Android port
     of the @ref examples-viewer example

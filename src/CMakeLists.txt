@@ -28,7 +28,8 @@
 #   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-# On MSVC remove /W3, as we are replacing it with /W4
+# On MSVC remove /W3, as we are replacing it with /W4. Could be removed as of
+# 3.15 with this: https://cmake.org/cmake/help/latest/policy/CMP0092.html
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" OR CMAKE_CXX_SIMULATE_ID STREQUAL "MSVC")
     string(REPLACE "/W3" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 endif()
@@ -95,6 +96,10 @@ if(WITH_MOUSEINTERACTION_EXAMPLE)
     add_subdirectory(mouseinteraction)
 endif()
 
+if(WITH_OCTREE_EXAMPLE)
+    add_subdirectory(octree)
+endif()
+
 if(WITH_OVR_EXAMPLE)
     add_subdirectory(ovr)
 endif()
@@ -141,10 +146,6 @@ endif()
 
 if(WITH_VIEWER_EXAMPLE)
     add_subdirectory(viewer)
-endif()
-
-if(WITH_WEBVR_EXAMPLE)
-    add_subdirectory(webvr)
 endif()
 
 if(WITH_WEBXR_EXAMPLE)

@@ -96,7 +96,7 @@ class WebXrExample: public Platform::Application {
 
 WebXrExample::WebXrExample(const Arguments& arguments):
     Platform::Application(arguments,
-        Configuration{}.setSize({640, 320}),
+        Configuration{},
         GLConfiguration{}.setSampleCount(4))
 {
     GL::Renderer::enable(GL::Renderer::Feature::DepthTest);
@@ -166,7 +166,7 @@ void WebXrExample::drawEvent() {
         _projectionMatrices[0] = Matrix4::perspectiveProjection(90.0_degf,
             Vector2(windowSize()).aspectRatio(), 0.01f, 100.0f);
         _viewMatrices[0] = Matrix4{};
-        _viewports[0] = Range2Di{{}, windowSize()};
+        _viewports[0] = Range2Di{{}, framebufferSize()};
 
         /* Set some default transformation for the controllers so that they don't
            block view */
@@ -192,8 +192,8 @@ void WebXrExample::drawEvent() {
                 _viewMatrices[eye]*_cubeTransformations[i];
             _shader.setTransformationMatrix(transformationMatrix)
                 .setNormalMatrix(transformationMatrix.rotationScaling())
-                .setDiffuseColor(_cubeColors[i]);
-            _cubeMesh.draw(_shader);
+                .setDiffuseColor(_cubeColors[i])
+                .draw(_cubeMesh);
         }
 
         /* Draw controller models */
@@ -202,8 +202,8 @@ void WebXrExample::drawEvent() {
                 _viewMatrices[eye]*_controllerTransformations[i]*Matrix4::scaling(Vector3{0.05f});
             _shader.setTransformationMatrix(transformationMatrix)
                 .setNormalMatrix(transformationMatrix.rotationScaling())
-                .setDiffuseColor(_controllerColors[i]);
-            _controllerMesh.draw(_shader);
+                .setDiffuseColor(_controllerColors[i])
+                .draw(_controllerMesh);
         }
     }
 

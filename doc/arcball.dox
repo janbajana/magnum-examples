@@ -28,16 +28,18 @@ namespace Magnum {
 
 /** @page examples-arcball ArcBall Camera
 @brief Intuitive camera control with smooth navigation.
-@m_since_latest_{examples}
+@m_since_{examples,2020,06}
 
 @m_footernavigation
 
 @image html arcball.png width=400px
 
-This is an implementation of [Ken Shoemake's arcball camera](https://www.talisman.org/~erlkonig/misc/shoemake92-arcball.pdf)
-with smooth navigation feature. Using arcball, the camera control is more
+Implementation of [Ken Shoemake's arcball camera](https://www.talisman.org/~erlkonig/misc/shoemake92-arcball.pdf)
+with a smooth navigation feature. Using arcball, the camera control is more
 accurate and consistent. See also the @ref examples-mouseinteraction example
 for an alternative approach.
+
+@m_div{m-button m-primary} <a href="https://magnum.graphics/showcase/arcball/">@m_div{m-big} Live web demo @m_enddiv @m_div{m-small} uses WebAssembly & WebGL 2 @m_enddiv </a> @m_enddiv
 
 @section examples-arcball-controls Controls
 
@@ -67,6 +69,11 @@ into your project. The `ArcBallCamera.h` file provides an optional
 -   @ref arcball/ArcBallCamera.h "ArcBallCamera.h"
 -   @ref arcball/ArcBallExample.cpp "ArcBallExample.cpp"
 -   @ref arcball/CMakeLists.txt "CMakeLists.txt"
+
+The [ports branch](https://github.com/mosra/magnum-examples/tree/ports/src/arcball)
+contains additional patches for @ref CORRADE_TARGET_EMSCRIPTEN "Emscripten"
+support that aren't present in `master` in order to keep the example code as
+simple as possible.
 
 @example arcball/ArcBall.cpp @m_examplenavigation{examples-arcball,arcball/} @m_footernavigation
 @example arcball/ArcBall.h @m_examplenavigation{examples-arcball,arcball/} @m_footernavigation
